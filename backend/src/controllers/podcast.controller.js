@@ -8,8 +8,9 @@ export const getAllPodcasts = async (req, res, next) => {
         const podcasts = await Podcast.find({}).skip(skip).limit(parseInt(limit)).sort({ createdAt: -1 })
 
         return res.status(200).json({
+            success: true,
             message: "Podcasts fetched successfully",
-            podcasts
+            podcasts,
         });
     } catch (error) {
         next(error);
@@ -34,8 +35,9 @@ export const getMadeForYouPodcasts = async (req, res, next) => {
         ]);
 
         return res.status(200).json({
+            success: true,
             message: "Made for your podcasts fetched successfully",
-            podcasts
+            podcasts,
         });
     } catch (error) {
         next(error);
@@ -60,6 +62,7 @@ export const getTrendingPodcasts = async (req, res, next) => {
         ]);
 
         return res.status(200).json({
+            success: true,
             message: "Trending podcasts fetched successfully",
             podcasts
         });
@@ -86,6 +89,7 @@ export const getFeaturedPodcasts = async (req, res, next) => {
         ]);
 
         return res.status(200).json({
+            success: true,
             message: "Featured podcasts fetched successfully",
             podcasts
         });

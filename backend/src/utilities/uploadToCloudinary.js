@@ -1,4 +1,5 @@
-import { v2 as cloudinary } from 'cloudinary';
+import cloudinary from "./cloudinary";
+
 export const uploadToCloudinary = async (file) => {
     try {
 
