@@ -9,8 +9,6 @@ const AuthCallbackPage = () => {
   const [, startTransition] = useTransition();
   const { user, isLoaded } = useUser()
 
-  console.log('AuthCallbackPage - User:', user);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,9 +25,7 @@ const AuthCallbackPage = () => {
           imageUrl: user.imageUrl
         })
 
-        console.log('Authentication successful:', response.data);
         navigate('/')
-
       } catch (error) {
         console.log('Error during authentication callback:', error);
         navigate('/')
