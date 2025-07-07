@@ -1,6 +1,8 @@
 import { clerkClient } from "@clerk/express";
 
-const ADMIN_EMAILS = [process.env.ADMIN_EMAILS].split('&').map(email => email.trim().toLowerCase());
+const adminEmails = process.env.ADMIN_EMAILS || '';
+
+const ADMIN_EMAILS = adminEmails.split('&').map(email => email.trim().toLowerCase());
 export const protectedRoute = (req, res, next) => {
     const { auth } = req;
 

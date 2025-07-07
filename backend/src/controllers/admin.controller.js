@@ -1,5 +1,5 @@
-import { Playlist } from "../models/playlist.model";
-import { uploadToCloudinary } from "../utilities/uploadToCloudinary";
+import { Playlist } from "../models/playlist.model.js";
+import { uploadToCloudinary } from "../utilities/uploadToCloudinary.js";
 
 export const createPodcast = async (req, res, next) => {
     try {

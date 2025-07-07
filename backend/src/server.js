@@ -3,11 +3,17 @@ import 'dotenv/config';
 import { connectToDatabase } from './config/db.js';
 import { clerkMiddleware } from '@clerk/express'
 import fileUpload from 'express-fileupload';
-import { adminRoutes, podcastRoutes, authRoutes } from './routes';
+import { adminRoutes, podcastRoutes, authRoutes } from './routes/index.js';
+import cors from 'cors';
 
 const app = express();
+app.use(cors({
+    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    credentials: true,
+}))
 
 app.use(clerkMiddleware())
+
 app.use(express.json());
 app.use(fileUpload({
     useTempFiles: true,

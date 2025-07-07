@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { adminRoute, protectedRoute } from '../middlewares/auth.middleware';
-import { getAllPodcasts, getFeaturedPodcasts, getMadeForYouPodcasts, getTrendingPodcasts } from '../controllers/podcast.controller';
+import { adminRoute, protectedRoute } from '../middlewares/auth.middleware.js';
+import { getAllPodcasts, getFeaturedPodcasts, getMadeForYouPodcasts, getTrendingPodcasts } from '../controllers/podcast.controller.js';
 
 const router = Router();
 

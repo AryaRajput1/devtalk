@@ -1,8 +1,7 @@
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
 
 export const authCallback = async (req, res, next) => {
     try {
-
         const { id, firstName, lastName, imageUrl } = req.body;
 
         if (!id || !firstName || !lastName || !imageUrl) {
@@ -28,6 +27,7 @@ export const authCallback = async (req, res, next) => {
             success: true
         })
     } catch (error) {
+        console.error('Error in authCallback:', error);
         next(error);
     }
 }

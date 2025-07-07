@@ -1,6 +1,6 @@
-import { Playlist } from "../models/playlist.model";
-import { Podcast } from "../models/podcast.model";
-import { User } from "../models/user.model";
+import { Playlist } from "../models/playlist.model.js";
+import { Podcast } from "../models/podcast.model.js";
+import { User } from "../models/user.model.js";
 
 export const getStats = async (req, res, next) => {
     try {

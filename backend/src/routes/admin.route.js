@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import { adminRoute, protectedRoute } from '../middlewares/auth.middleware';
+import { adminRoute, protectedRoute } from '../middlewares/auth.middleware.js';
+import { createPlaylist, createPodcast, deletePlaylist, deletePodcast } from '../controllers/admin.controller.js';
 
 const router = Router();
 

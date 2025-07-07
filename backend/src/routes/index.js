@@ -1,3 +1,5 @@
-export { default as authRoutes } from './auth.route.js';
-export { default as podcastRoutes } from './podcast.route.js';
-export { default as adminRoutes } from './admin.route.js';
+import authRoutes from './auth.route.js';
+import podcastRoutes from './podcast.route.js';
+import adminRoutes from './admin.route.js';
+
+export { authRoutes, podcastRoutes, adminRoutes };
