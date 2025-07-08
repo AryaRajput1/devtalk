@@ -1,8 +1,9 @@
-import { AuthenticateWithRedirectCallback, SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react"
+import { AuthenticateWithRedirectCallback } from "@clerk/clerk-react"
 import { Route, Routes } from "react-router-dom"
 import HomePage from "./pages/home/HomePage"
 import AuthCallbackPage from "./pages/authCallback/AuthCallbackPage"
 import MainLayout from "./layout/MainLayout"
+import PlaylistPage from "./pages/playlist/PlaylistPage"
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Route path='/auth-callback' element={<AuthCallbackPage />} />
       <Route element={<MainLayout />}>
         <Route path='/' element={<HomePage />} />
+        <Route path='/playlist/:playlistId' element={<PlaylistPage />} />
       </Route>
     </Routes>
   )

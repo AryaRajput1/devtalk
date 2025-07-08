@@ -3,7 +3,7 @@ import 'dotenv/config';
 import { connectToDatabase } from './config/db.js';
 import { clerkMiddleware } from '@clerk/express'
 import fileUpload from 'express-fileupload';
-import { adminRoutes, podcastRoutes, authRoutes } from './routes/index.js';
+import { adminRoutes, podcastRoutes, authRoutes, playlistRoutes } from './routes/index.js';
 import cors from 'cors';
 
 const app = express();
@@ -28,6 +28,7 @@ const PORT = process.env.PORT || 3000;
 app.use('/api/v1/auth', authRoutes)
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/podcasts", podcastRoutes);
+app.use('/api/v1/playlists', playlistRoutes)
 
 app.listen(PORT, () => {
     connectToDatabase();
