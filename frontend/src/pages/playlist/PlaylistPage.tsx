@@ -54,8 +54,8 @@ const PlaylistPage = () => {
                 <h1 className='text-7xl font-bold my-4'>{currentPlaylist?.title}</h1>
                 <div className='flex items-center gap-2 text-sm text-zinc-100'>
                   <span className='font-medium text-white'>{currentPlaylist?.artist}</span>
-                  <span>• {currentPlaylist?.podcasts.length} songs</span>
-                  <span>• {dayjs(currentPlaylist?.releaseDate).format('d MMMM YYYY')}</span>
+                  <span>• {currentPlaylist?.podcasts.length} audios</span>
+                  <span>• {dayjs(currentPlaylist?.releaseDate).format('DD MMMM YYYY')}</span>
                 </div>
               </div>
             </div>

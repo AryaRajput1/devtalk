@@ -6,9 +6,10 @@ import { useMusicStore } from "@/store/useMusicStore";
 import { SignedIn } from "@clerk/clerk-react";
 import { HomeIcon, Library, MessageCircle } from "lucide-react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const LeftSidebar = () => {
+	const { playlistId } = useParams<{ playlistId: string }>();
 	const { getAllPlaylists, playlists, isLoading } = useMusicStore()
 
 	useEffect(() => {
@@ -67,7 +68,12 @@ const LeftSidebar = () => {
 								<Link
 									to={`/playlist/${playlist._id}`}
 									key={playlist._id}
-									className='p-2 hover:bg-zinc-800 rounded-md flex items-center gap-3 group cursor-pointer'
+									className={
+										cn(
+											"flex items-center gap-2 p-2 rounded-md hover:bg-zinc-800 transition-colors",
+											playlistId === playlist._id ? "bg-zinc-800/90" : "bg-transparent"
+										)
+									}
 								>
 									<img
 										src={playlist.imageUrl}
