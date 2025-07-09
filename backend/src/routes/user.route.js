@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { adminRoute, protectedRoute } from "../middlewares/auth.middleware.js";
+import { getAllUsers } from "../controllers/user.controller.js";
 
 const router = Router();
 
-route.get("/", protectedRoute, adminRoute, getAllUsers)
+router.get("/", protectedRoute, adminRoute, getAllUsers)
 export default router;

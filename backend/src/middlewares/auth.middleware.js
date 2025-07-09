@@ -14,14 +14,14 @@ export const protectedRoute = (req, res, next) => {
 }
 
 export const adminRoute = async (req, res, next) => {
-    const { auth } = req;
+    const { userId } = req.auth();
 
-    if (!auth || !auth.userId) {
+    if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });
     }
 
-    const user = await clerkClient.users.getCount({ userId: auth.userId });
-    const userEmail = user.emailAddresses[0].emailAddress.toLowerCase();
+    const user = await clerkClient.users.getUser(userId);
+    const userEmail = user.primaryEmailAddress?.emailAddress.toLowerCase();
 
     if (!ADMIN_EMAILS.includes(userEmail)) {
         return res.status(403).json({ message: 'Forbidden - You are no admin' });
