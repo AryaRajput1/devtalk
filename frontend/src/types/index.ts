@@ -11,11 +11,20 @@ export interface Playlist {
 }
 
 export interface Podcast {
-    id: string;
+    _id: string;
     title: string;
+    artist: string;
     description: string;
     imageUrl: string;
     audioUrl: string;
-    createdAt: Date;
-    updatedAt: Date;
+    duration: number; 
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface User {
+	_id: string;
+	clerkId: string;
+	fullName: string;
+	imageUrl: string;
 }

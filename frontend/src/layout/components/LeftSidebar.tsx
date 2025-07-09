@@ -64,7 +64,7 @@ const LeftSidebar = () => {
 				<ScrollArea className='h-[calc(100vh-300px)]'>
 					{
 						isLoading ? (<PlaylistSkeleton />) : (
-							playlists?.map((playlist) => (
+							playlists?.length ? playlists?.map((playlist) => (
 								<Link
 									to={`/playlist/${playlist._id}`}
 									key={playlist._id}
@@ -86,7 +86,9 @@ const LeftSidebar = () => {
 										<p className='text-sm text-zinc-400 truncate'>Album • {playlist.artist}</p>
 									</div>
 								</Link>
-							))
+							)) : (
+							<p className='text-zinc-400 text-sm'>No playlists found.</p>
+							)
 						)}
 				</ScrollArea>
 			</div>

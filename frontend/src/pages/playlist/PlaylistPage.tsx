@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
-import { AudioLines, Play } from "lucide-react";
+import { AudioLines, Clock, Play } from "lucide-react";
+import { formatDuration } from "@/utils/formatDuration";
 
 const PlaylistPage = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
@@ -60,7 +61,7 @@ const PlaylistPage = () => {
               </div>
             </div>
             {/* play button */}
-            <div className='px-6 pb-4 flex items-center gap-6'>
+            {currentPlaylist?.podcasts.length !== 0 && <div className='px-6 pb-4 flex items-center gap-6'>
               <Button
                 onClick={() => { }}
                 size='icon'
@@ -69,7 +70,62 @@ const PlaylistPage = () => {
               >
                 <Play className='h-7 w-7 text-black' />
               </Button>
-            </div>
+            </div>}
+            {
+              currentPlaylist?.podcasts.length === 0 ? (
+                <div className='flex items-center justify-center h-[410px] text-white gap-2'>
+                  <div className="flex items-center justify-center">
+                    <AudioLines className='size-15 text-zinc-500 relative' />
+                  </div>
+                  <div>
+                    <h1 className='text-3xl font-bold'>No podcasts found</h1>
+                    <p className='text-zinc-400 mt-2'>This playlist has no podcasts yet.</p>
+                  </div>
+                </div>
+              ) :
+                <div className='bg-black/20 backdrop-blur-sm'>
+                  {/* table header */}
+                  <div
+                    className='grid grid-cols-[16px_4fr_2fr_1fr] gap-4 px-10 py-2 text-sm 
+            text-zinc-400 border-b border-white/5'
+                  >
+                    <div>#</div>
+                    <div>Title</div>
+                    <div>Released Date</div>
+                    <div>
+                      <Clock className='h-4 w-4' />
+                    </div>
+                  </div>
+                  {/* songs list */}
+
+                  <div className='px-6'>
+                    <div className='space-y-2 py-4'>
+                      {currentPlaylist?.podcasts.map((podcast, index) => {
+                        return <div key={podcast._id} className="grid grid-cols-[16px_4fr_2fr_1fr] gap-4 px-4 py-2 text-sm 
+                      text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer">
+                          <div className="flex items-center justify-center">
+                            <span className="group-hover:hidden">
+                              {index + 1}
+                            </span>
+                            <Play className='h-4 w-4 hidden group-hover:block' />
+                          </div>
+                          <div className='flex items-center gap-3'>
+                            <img src={podcast.imageUrl} alt={podcast.title} className='size-10' />
+
+                            <div>
+                              <div className={`font-medium text-white`}>{podcast.title}</div>
+                              <div>{podcast.artist}</div>
+                            </div>
+                          </div>
+                          <div className='flex items-center'>{podcast.createdAt.split("T")[0]}</div>
+                          <div className='flex items-center'>{formatDuration(podcast.duration)}</div>
+                        </div>
+                      })}
+
+                    </div>
+                  </div>
+                </div>
+            }
           </div>
         </div>
       </ScrollArea>
