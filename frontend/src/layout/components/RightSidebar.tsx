@@ -1,12 +1,14 @@
 import { useChatStore } from "@/store/useChatStore";
 import { useUser } from "@clerk/clerk-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { HeadphonesIcon, Users } from "lucide-react";
+import { HeadphoneOffIcon, HeadphonesIcon, Music, Users } from "lucide-react";
 import { useEffect } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const RightSidebar = () => {
   const { users, fetchUsers } = useChatStore();
   const { user } = useUser();
+  const isPlaying = true;
 
   useEffect(() => {
     if (user) fetchUsers();
@@ -27,16 +29,41 @@ const RightSidebar = () => {
             users.map((user) => (
               <div
                 key={user._id}
-                className='flex items-center gap-3 p-2 rounded-md hover:bg-zinc-800 cursor-pointer'
+                className='cursor-pointer hover:bg-zinc-800/50 p-3 rounded-md transition-colors group'
               >
-                <img src={user.imageUrl} alt={user.fullName} className='w-10 h-10 rounded-full' />
-                <div className='flex flex-col'>
-                  <span className='text-sm font-medium text-white'>{user.fullName}</span>
-                  <span className='text-xs text-zinc-400'>Listening to podcasts</span>
+                <div className='flex items-start gap-3'>
+                  <div className='relative'>
+                    <Avatar className='size-10 border border-zinc-800'>
+                      <AvatarImage src={user.imageUrl} alt={user.fullName} />
+                      <AvatarFallback>{user.fullName[0]}</AvatarFallback>
+                    </Avatar>
+                    <div
+                      className={`absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-zinc-900 bg-green-500`}
+                      aria-hidden='true'
+                    />
+                  </div>
+
+                  <div className='flex-1 min-w-0'>
+                    <div className='flex items-center gap-2'>
+                      <span className='font-medium text-sm text-white'>{user.fullName}</span>
+                      {isPlaying ? <HeadphonesIcon className='size-3.5 shrink-0 text-emerald-500' /> : <HeadphoneOffIcon className='size-3.5 text-zinc-500 shrink-0' />}
+                    </div>
+                    {isPlaying ? (
+                      <div className='mt-1'>
+                        <div className='mt-1 text-sm text-white font-medium truncate'>
+                          Playing JWT
+                        </div>
+                        <div className='text-xs text-zinc-400 truncate'>
+                          By Arya Rajput
+                        </div>
+                      </div>
+                    ) : (
+                      <div className='mt-1 text-xs text-zinc-400'>-</div>
+                    )}
+                  </div>
                 </div>
               </div>
-            ))
-          }
+            ))}
         </div>
       </ScrollArea>
     </div>

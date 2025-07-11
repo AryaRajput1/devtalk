@@ -117,3 +117,7 @@ export const deletePlaylist = async (req, res, next) => {
         next(error);
     }
 }
+
+export const checkAdminStatus = async (req, res, next) => {
+	res.status(200).json({ isAdmin: true });
+};

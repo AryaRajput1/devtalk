@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useMusicStore } from "@/store/useMusicStore";
+import { usePodcastStore } from "@/store/usePodcastStore";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
@@ -9,7 +9,7 @@ import { formatDuration } from "@/utils/formatDuration";
 
 const PlaylistPage = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
-  const { fetchPlaylistById, currentPlaylist, isLoading } = useMusicStore();
+  const { fetchPlaylistById, currentPlaylist, isLoading } = usePodcastStore();
 
   useEffect(() => {
     if (playlistId) {
@@ -33,7 +33,7 @@ const PlaylistPage = () => {
   }
   return (
     <div className="h-full">
-      <ScrollArea className="h-full">
+      <ScrollArea className="h-full rounded-md">
         {/* Main Content */}
         <div className='relative min-h-full'>
           {/* bg gradient */}
