@@ -4,18 +4,38 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import { Button } from "@/components/ui/button";
-import { AudioLines, Clock, Play } from "lucide-react";
+import { AudioLines, Clock, Pause, Play } from "lucide-react";
 import { formatDuration } from "@/utils/formatDuration";
+import { usePlayerStore } from "@/store/usePlayerStore";
 
 const PlaylistPage = () => {
   const { playlistId } = useParams<{ playlistId: string }>();
   const { fetchPlaylistById, currentPlaylist, isLoading } = usePodcastStore();
+  const { currentPodcast, isPlaying, playPlaylist, togglePlay } = usePlayerStore()
 
   useEffect(() => {
     if (playlistId) {
       fetchPlaylistById(playlistId);
     }
   }, [playlistId, fetchPlaylistById]);
+
+  const isCurrentPlaylistPlaying = currentPlaylist?.podcasts.some(podcast => podcast._id === currentPodcast?._id);
+
+  const handlePlayPlaylist = (index = 0) => {
+
+    if (isCurrentPlaylistPlaying) {
+      togglePlay();
+      return;
+    }
+
+    if (currentPlaylist?.podcasts.length) {
+      playPlaylist(currentPlaylist.podcasts, index);
+    }
+  }
+
+  const handlePlayPodcast = (index = 0) => {
+    playPlaylist(currentPlaylist?.podcasts || [], index);
+  }
 
   if (isLoading) return null;
 
@@ -63,12 +83,18 @@ const PlaylistPage = () => {
             {/* play button */}
             {currentPlaylist?.podcasts.length !== 0 && <div className='px-6 pb-4 flex items-center gap-6'>
               <Button
-                onClick={() => { }}
+                onClick={() => handlePlayPlaylist()}
                 size='icon'
                 className='w-14 h-14 rounded-full bg-green-500 hover:bg-green-400 
                 hover:scale-105 transition-all cursor-pointer'
               >
-                <Play className='h-7 w-7 text-black' />
+                {
+                  isPlaying && isCurrentPlaylistPlaying ? (
+                    <Pause className='h-7 w-7 text-white' />
+                  ) : (
+                    <Play className='h-7 w-7 text-white' />
+                  )
+                }
               </Button>
             </div>}
             {
@@ -101,13 +127,30 @@ const PlaylistPage = () => {
                   <div className='px-6'>
                     <div className='space-y-2 py-4'>
                       {currentPlaylist?.podcasts.map((podcast, index) => {
-                        return <div key={podcast._id} className="grid grid-cols-[16px_4fr_2fr_1fr] gap-4 px-4 py-2 text-sm 
+
+                        const isCurrent = currentPodcast?._id === podcast._id;
+
+                        return <div
+                          key={podcast._id}
+                          onClick={() => {
+                            handlePlayPodcast(index)
+                          }
+                          }
+                          className="grid grid-cols-[16px_4fr_2fr_1fr] gap-4 px-4 py-2 text-sm 
                       text-zinc-400 hover:bg-white/5 rounded-md group cursor-pointer">
                           <div className="flex items-center justify-center">
-                            <span className="group-hover:hidden">
-                              {index + 1}
-                            </span>
-                            <Play className='h-4 w-4 hidden group-hover:block' />
+                            {
+                              isCurrent && isPlaying ? (
+                                <div className='size-6 text-emerald-500 rounded-full animate-pulse' >♫</div>
+                              ) : (
+                                <span className="group-hover:hidden">
+                                  {index + 1}
+                                </span>
+                              )
+                            }
+                            {!isCurrent && (
+                              <Play className='h-4 w-4 hidden group-hover:block' />
+                            )}
                           </div>
                           <div className='flex items-center gap-3'>
                             <img src={podcast.imageUrl} alt={podcast.title} className='size-10' />

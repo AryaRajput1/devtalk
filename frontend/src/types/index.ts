@@ -28,3 +28,10 @@ export interface User {
 	fullName: string;
 	imageUrl: string;
 }
+
+export interface Stats {
+	totalPodcasts: number;
+	totalPlaylists: number;
+	totalUsers: number;
+	totalArtists: number;
+}

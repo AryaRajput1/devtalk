@@ -1,8 +1,9 @@
 import FeaturedGridSkeleton from "@/components/skeletons/FeaturedGridSkeleton";
 import { usePodcastStore } from "@/store/usePodcastStore";
+import PlayButton from "./PlayButton";
 
 const FeaturedSection = () => {
-    const { isLoading, featuredPodcast, error } = usePodcastStore();
+    const { isLoading, featuredPodcasts, error } = usePodcastStore();
 
     if (isLoading) return <FeaturedGridSkeleton />;
 
@@ -10,7 +11,7 @@ const FeaturedSection = () => {
 
     return (
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8'>
-            {featuredPodcast.map((podcast) => (
+            {featuredPodcasts.map((podcast) => (
                 <div
                     key={podcast._id}
                     className='flex items-center bg-zinc-800/50 rounded-md overflow-hidden
@@ -25,7 +26,7 @@ const FeaturedSection = () => {
                         <p className='font-medium truncate'>{podcast.title}</p>
                         <p className='text-sm text-zinc-400 truncate'>{podcast.artist}</p>
                     </div>
-                    {/* <PlayButton podcast={podcast} /> */}
+                    <PlayButton podcast={podcast} />
                 </div>
             ))}
         </div>

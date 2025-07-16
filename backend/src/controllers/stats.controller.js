@@ -34,7 +34,7 @@ export const getStats = async (req, res, next) => {
                 totalPlaylists,
                 totalPodcasts,
                 totalUsers,
-                uniqueArtists
+                totalArtists: uniqueArtists[0].count || 0,
             }
         })
 

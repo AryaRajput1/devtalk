@@ -1,4 +1,4 @@
-import type { Playlist, Podcast } from '@/types';
+import type { Playlist, Podcast, Stats } from '@/types';
 import { axiosWrapper } from '@/utils/axiosWrapper';
 import type { AxiosError } from 'axios';
 import { create } from 'zustand';
@@ -6,13 +6,17 @@ import { create } from 'zustand';
 type PocastState = {
     playlists: Playlist[];
     podcasts: Podcast[];
+    stats: Stats;
     isLoading: boolean;
     error: string | null;
     currentPlaylist: Playlist | null;
     currentPodcast: Podcast | null;
-    featuredPodcast: Podcast[];
+    featuredPodcasts: Podcast[];
     madeForYouPodcasts: Podcast[];
     trendingPodcast: Podcast[];
+    fetchPlaylists: () => Promise<void>;
+    fetchPodcasts: () => Promise<void>;
+    fetchStats: () => Promise<void>;
     getAllPlaylists: () => Promise<void>;
     fetchPlaylistById: (id: string) => Promise<Playlist | null>;
     fetchPodcastById: (id: string) => Promise<Podcast | null>;
@@ -29,7 +33,7 @@ export const usePodcastStore = create<PocastState>((set) => {
         error: null,
         currentPlaylist: null,
         currentPodcast: null,
-        featuredPodcast: [],
+        featuredPodcasts: [],
         madeForYouPodcasts: [],
         trendingPodcast: [],
         getAllPlaylists: async () => {
@@ -89,6 +93,33 @@ export const usePodcastStore = create<PocastState>((set) => {
             } catch (error: unknown) {
                 set({ isLoading: false, error: (error as AxiosError).message });
             }
-        }
+        },
+        fetchPlaylists: async () => {
+            set({ playlists: [], isLoading: true, error: null });
+            try {
+                const response = await axiosWrapper.get('/playlists');
+                set({ playlists: response.data.playlists, isLoading: false });
+            } catch (error: unknown) {
+                set({ isLoading: false, error: (error as AxiosError).message });
+            }
+        },
+        fetchPodcasts: async () => {
+            set({ podcasts: [], isLoading: true, error: null });
+            try {
+                const response = await axiosWrapper.get('/podcasts');
+                set({ podcasts: response.data.podcasts, isLoading: false });
+            } catch (error: unknown) {
+                set({ isLoading: false, error: (error as AxiosError).message });
+            }
+        },
+        fetchStats: async () => {
+            set({ isLoading: true, error: null });
+            try {
+                const response = await axiosWrapper.get("/stats");
+			set({ stats: response.data.stats, isLoading: false });
+            } catch (error: unknown) {
+                set({ isLoading: false, error: (error as AxiosError).message });
+            }
+        },
     }
 })

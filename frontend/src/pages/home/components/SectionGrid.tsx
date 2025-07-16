@@ -1,6 +1,7 @@
 import SectionGridSkeleton from "@/components/skeletons/SectionGridSkeleton";
 import { Button } from "@/components/ui/button";
 import type { Podcast } from "@/types";
+import PlayButton from "./PlayButton";
 
 type SectionGridProps = {
 	title: string;
@@ -34,7 +35,7 @@ const SectionGrid = ({ podcasts, title, isLoading }: SectionGridProps) => {
 									group-hover:scale-105'
 								/>
 							</div>
-							{/* <PlayButton podcast={podcast} /> */}
+							<PlayButton podcast={podcast} />
 						</div>
 						<h3 className='font-medium mb-2 truncate'>{podcast.title}</h3>
 						<p className='text-sm text-zinc-400 truncate'>{podcast.artist}</p>
