@@ -10,9 +10,18 @@ import {
 } from "@/components/ui/table"
 import { Calendar, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 const PodcastsTable = () => {
-	const { podcasts, isLoading, error } = usePodcastStore();
+	const { podcasts, isLoading, error, deletePodcast, fetchStats } = usePodcastStore();
+
+	if (!podcasts || podcasts.length === 0) {
+		return (
+			<div className='flex items-center justify-center py-8'>
+				<div className='text-zinc-400'>No podcasts available.</div>
+			</div>
+		);
+	}
 
 	if (isLoading) {
 		return (
@@ -66,7 +75,7 @@ const PodcastsTable = () => {
 									variant={"ghost"}
 									size={"sm"}
 									className='text-red-400 hover:text-red-300 hover:bg-red-400/10'
-									onClick={() => { }}
+									onClick={() => deletePodcast(podcast._id)}
 								>
 									<Trash2 className='size-4' />
 								</Button>

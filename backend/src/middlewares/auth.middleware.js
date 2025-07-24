@@ -14,7 +14,7 @@ export const protectedRoute = (req, res, next) => {
 }
 
 export const adminRoute = async (req, res, next) => {
-    const { userId } = req.auth();
+    const { userId } = req.auth;
 
     if (!userId) {
         return res.status(401).json({ message: 'Unauthorized' });

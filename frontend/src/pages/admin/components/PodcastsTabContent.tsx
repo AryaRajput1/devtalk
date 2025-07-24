@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Music, Plus } from "lucide-react";
 import PodcastsTable from "./PodcastsTable";
+import AddPodcastDialog from "./AddPodcastDialog";
 const PodcastsTabContent = () => {
     return (
         <Card>
@@ -14,11 +15,7 @@ const PodcastsTabContent = () => {
                         </CardTitle>
                         <CardDescription>Manage your podcasts</CardDescription>
                     </div>
-                    {/* <AddSongDialog /> */}
-                    <Button className='bg-emerald-500 hover:bg-emerald-600 text-black'>
-                        <Plus className='mr-2 h-4 w-4' />
-                        Add Song
-                    </Button>
+                    <AddPodcastDialog />
                 </div>
             </CardHeader>
             <CardContent>

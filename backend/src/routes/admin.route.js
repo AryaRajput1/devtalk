@@ -7,10 +7,10 @@ const router = Router();
 router.use(protectedRoute, adminRoute);
 
 router.post('/podcast', createPodcast);
-router.delete('/podcast/:id', deletePodcast);
+router.delete('/podcast/:podcastId', deletePodcast);
 
 router.post('/playlist', createPlaylist);
-router.post('/playlist/:id', deletePlaylist);
+router.delete('/playlist/:id', deletePlaylist);
 
 router.get('/checkAdminStatus', checkAdminStatus);
 

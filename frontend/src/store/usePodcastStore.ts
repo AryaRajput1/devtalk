@@ -1,6 +1,7 @@
 import type { Playlist, Podcast, Stats } from '@/types';
 import { axiosWrapper } from '@/utils/axiosWrapper';
 import type { AxiosError } from 'axios';
+import { toast } from 'sonner';
 import { create } from 'zustand';
 
 type PocastState = {
@@ -21,11 +22,13 @@ type PocastState = {
     fetchPlaylistById: (id: string) => Promise<Playlist | null>;
     fetchPodcastById: (id: string) => Promise<Podcast | null>;
     fetchFeaturedPodcasts: () => Promise<void>;
-	fetchMadeForYouPodcasts: () => Promise<void>;
-	fetchTrendingPodcasts: () => Promise<void>;
+    fetchMadeForYouPodcasts: () => Promise<void>;
+    fetchTrendingPodcasts: () => Promise<void>;
+    deletePodcast: (id: string) => Promise<void>;
+    deletePlaylist: (id: string) => Promise<void>;
 }
 
-export const usePodcastStore = create<PocastState>((set) => {
+export const usePodcastStore = create<PocastState>((set, get) => {
     return {
         playlists: [],
         podcasts: [],
@@ -116,7 +119,39 @@ export const usePodcastStore = create<PocastState>((set) => {
             set({ isLoading: true, error: null });
             try {
                 const response = await axiosWrapper.get("/stats");
-			set({ stats: response.data.stats, isLoading: false });
+                set({ stats: response.data.stats, isLoading: false });
+            } catch (error: unknown) {
+                set({ isLoading: false, error: (error as AxiosError).message });
+            }
+        },
+        deletePodcast: async (id: string) => {
+            set({ isLoading: true, error: null });
+            try {
+                await axiosWrapper.delete(`/admin/podcast/${id}`);
+                const { fetchStats } = get();
+                await fetchStats();
+                set((state) => ({
+                    podcasts: state.podcasts.filter((podcast) => podcast._id !== id),
+                    isLoading: false,
+                }));
+                toast.success("Podcast deleted successfully.");
+
+            } catch (error: unknown) {
+                set({ isLoading: false, error: (error as AxiosError).message });
+            }
+        },
+        deletePlaylist: async (id: string) => {
+            set({ isLoading: true, error: null });
+            try {
+                await axiosWrapper.delete(`/admin/playlist/${id}`);
+                const { fetchStats } = get();
+                await fetchStats();
+                set((state) => ({
+                    playlists: state.playlists.filter((playlist) => playlist._id !== id),
+                    podcasts: state.podcasts.filter((podcast) => podcast.playlist !== id),
+                    isLoading: false,
+                }));
+                toast.success("Playlist deleted successfully.");
             } catch (error: unknown) {
                 set({ isLoading: false, error: (error as AxiosError).message });
             }

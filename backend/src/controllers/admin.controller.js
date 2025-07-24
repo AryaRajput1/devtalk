@@ -1,4 +1,5 @@
 import { Playlist } from "../models/playlist.model.js";
+import { Podcast } from "../models/podcast.model.js";
 import { uploadToCloudinary } from "../utilities/uploadToCloudinary.js";
 
 export const createPodcast = async (req, res, next) => {
@@ -8,9 +9,9 @@ export const createPodcast = async (req, res, next) => {
             return res.status(400).json({ message: 'Audio and image files are required.' });
         }
 
-        const { title, artist, description, duration, playlistId } = req.body;
+        const { title, artist, description, duration, playlist } = req.body;
 
-        if (!title || !artist || !duration || !playlistId) {
+        if (!title || !artist || !duration || !playlist) {
             return res.status(400).json({ message: 'Title, artist, duration, and playlistId are required.' });
         }
 
@@ -24,13 +25,13 @@ export const createPodcast = async (req, res, next) => {
             audioUrl,
             imageUrl,
             duration: parseInt(duration, 10),
-            playlist: playlistId
+            playlist: playlist
         };
 
         // Assuming you have a Podcast model to save the podcast
         const podcast = await Podcast.create(newPodcast);
 
-        await Playlist.findByIdAndUpdate(playlistId, {
+        await Playlist.findByIdAndUpdate(playlist, {
             $push: { podcasts: podcast._id }
         })
 
@@ -99,7 +100,7 @@ export const createPlaylist = async (req, res, next) => {
 export const deletePlaylist = async (req, res, next) => {
     try {
 
-        const { playlistId } = req.params;
+        const { id:playlistId } = req.params;
 
         if (!playlistId) {
             return res.status(400).json({ message: 'Playlist ID is required.' });

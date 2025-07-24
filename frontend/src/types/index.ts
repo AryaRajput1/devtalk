@@ -20,6 +20,7 @@ export interface Podcast {
     duration: number; 
     createdAt: string;
     updatedAt: string;
+    playlist: string;
 }
 
 export interface User {
