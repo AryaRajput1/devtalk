@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/store/usePlayerStore';
 import type { Podcast } from '@/types';
 import { Pause, Play } from 'lucide-react';
-import React from 'react'
+
 
 const PlayButton = ({ podcast }: { podcast: Podcast }) => {
     const { currentPodcast, togglePlay, setCurrentPodcast, isPlaying } = usePlayerStore();

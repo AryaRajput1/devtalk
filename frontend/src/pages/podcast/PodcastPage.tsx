@@ -1,5 +1,3 @@
-import React from 'react'
-
 const PodcastPage = () => {
   return (
     <div>
@@ -9,5 +7,3 @@ const PodcastPage = () => {
 }
 
 export default PodcastPage
-
-Podcast

@@ -1,5 +1,5 @@
 import { SignedOut, UserButton } from '@clerk/clerk-react';
-import { HeadphoneOffIcon, HeadphonesIcon, LayoutDashboardIcon } from 'lucide-react';
+import { HeadphonesIcon, LayoutDashboardIcon } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SignInWithGoogleButton from './SignInWithGoogleButton';
 import { cn } from '@/lib/utils';

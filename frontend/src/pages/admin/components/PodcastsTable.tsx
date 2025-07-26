@@ -10,10 +10,9 @@ import {
 } from "@/components/ui/table"
 import { Calendar, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
 
 const PodcastsTable = () => {
-	const { podcasts, isLoading, error, deletePodcast, fetchStats } = usePodcastStore();
+	const { podcasts, isLoading, error, deletePodcast } = usePodcastStore();
 
 	if (!podcasts || podcasts.length === 0) {
 		return (

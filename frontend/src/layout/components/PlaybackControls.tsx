@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { usePlayerStore } from '@/store/usePlayerStore';
 import { formatDuration } from '@/utils/formatDuration';
-import { AudioLines, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward, Volume1, VolumeOff } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react'
+import { AudioLines, Pause, Play, SkipBack, SkipForward, Volume1, VolumeOff } from 'lucide-react';
+import  { useEffect, useRef, useState } from 'react'
 
 const PlaybackControls = () => {
     const { currentPodcast, isPlaying, togglePlay, playNext, playPrevious } = usePlayerStore();
@@ -46,7 +46,7 @@ const PlaybackControls = () => {
         }
     };
 
-    const handleVolume = (value) => {
+    const handleVolume = (value: number[]) => {
         setVolume(value[0]);
         if (audioRef.current) {
             audioRef.current.volume = value[0] / 100;

@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuthStore } from '@/store/useAuthStore';
 import { usePodcastStore } from '@/store/usePodcastStore';
 import { Album, Music } from 'lucide-react';
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import Header from './components/Header';
 import DashboardStats from './components/DashboardStats';
 import PodcastsTabContent from './components/PodcastsTabContent';

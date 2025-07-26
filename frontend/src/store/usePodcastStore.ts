@@ -7,7 +7,7 @@ import { create } from 'zustand';
 type PocastState = {
     playlists: Playlist[];
     podcasts: Podcast[];
-    stats: Stats;
+    stats?: Stats;
     isLoading: boolean;
     error: string | null;
     currentPlaylist: Playlist | null;
@@ -19,8 +19,8 @@ type PocastState = {
     fetchPodcasts: () => Promise<void>;
     fetchStats: () => Promise<void>;
     getAllPlaylists: () => Promise<void>;
-    fetchPlaylistById: (id: string) => Promise<Playlist | null>;
-    fetchPodcastById: (id: string) => Promise<Podcast | null>;
+    fetchPlaylistById: (id: string) => Promise<void>;
+    fetchPodcastById: (id: string) => Promise<void>;
     fetchFeaturedPodcasts: () => Promise<void>;
     fetchMadeForYouPodcasts: () => Promise<void>;
     fetchTrendingPodcasts: () => Promise<void>;
@@ -57,7 +57,6 @@ export const usePodcastStore = create<PocastState>((set, get) => {
                 set({ isLoading: false, currentPlaylist: response.data.playlist });
             } catch (error: unknown) {
                 set({ isLoading: false, error: (error as AxiosError).message, currentPlaylist: null });
-                return null;
             }
         },
         fetchPodcastById: async (id: string) => {
@@ -67,14 +66,13 @@ export const usePodcastStore = create<PocastState>((set, get) => {
                 set({ isLoading: false, currentPodcast: response.data.podcast });
             } catch (error: unknown) {
                 set({ isLoading: false, error: (error as AxiosError).message, currentPodcast: null });
-                return null;
             }
         },
         fetchFeaturedPodcasts: async () => {
-            set({ featuredPodcast: [], isLoading: true, error: null });
+            set({ featuredPodcasts: [], isLoading: true, error: null });
             try {
                 const response = await axiosWrapper.get('/podcasts/featured');
-                set({ featuredPodcast: response.data.podcasts, isLoading: false });
+                set({ featuredPodcasts: response.data.podcasts, isLoading: false });
             } catch (error: unknown) {
                 set({ isLoading: false, error: (error as AxiosError).message });
             }

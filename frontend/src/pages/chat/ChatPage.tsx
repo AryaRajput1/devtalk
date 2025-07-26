@@ -1,7 +1,7 @@
 import Topbar from '@/components/Topbar';
 import { useChatStore } from '@/store/useChatStore';
 import { useUser } from '@clerk/clerk-react';
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import UsersList from './components/UsersList';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';

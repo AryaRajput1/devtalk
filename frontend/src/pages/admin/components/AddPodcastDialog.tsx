@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { usePodcastStore } from "@/store/usePodcastStore";
 import { axiosWrapper } from "@/utils/axiosWrapper";
-import type { Axios, AxiosError } from "axios";
+import type { AxiosError } from "axios";
 import { Plus, Upload } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -45,48 +45,48 @@ const AddSongDialog = () => {
     const imageInputRef = useRef<HTMLInputElement>(null);
 
     const handleSubmit = async () => {
-    	setIsLoading(true);
+        setIsLoading(true);
 
-    	try {
-    		if (!files.audio || !files.image) {
-    			return toast.error("Please upload both audio and image files");
-    		}
+        try {
+            if (!files.audio || !files.image) {
+                return toast.error("Please upload both audio and image files");
+            }
 
-    		const formData = new FormData();
+            const formData = new FormData();
 
-    		formData.append("title", newPodcast.title);
-    		formData.append("artist", newPodcast.artist);
-    		formData.append("duration", newPodcast.duration);
-    		if (newPodcast.playlist && newPodcast.playlist !== "none") {
-    			formData.append("playlist", newPodcast.playlist);
-    		}
+            formData.append("title", newPodcast.title);
+            formData.append("artist", newPodcast.artist);
+            formData.append("duration", newPodcast.duration);
+            if (newPodcast.playlist && newPodcast.playlist !== "none") {
+                formData.append("playlist", newPodcast.playlist);
+            }
 
-    		formData.append("audioFile", files.audio);
-    		formData.append("imageFile", files.image);
+            formData.append("audioFile", files.audio);
+            formData.append("imageFile", files.image);
 
-    		await axiosWrapper.post("/admin/podcast", formData, {
-    			headers: {
-    				"Content-Type": "multipart/form-data",
-    			},
-    		});
+            await axiosWrapper.post("/admin/podcast", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
 
-    		setNewPodcast({
-    			title: "",
-    			artist: "",
-    			playlist: "",
-    			duration: "0",
-    		});
+            setNewPodcast({
+                title: "",
+                artist: "",
+                playlist: "",
+                duration: "0",
+            });
 
-    		setFiles({
-    			audio: null,
-    			image: null,
-    		});
-    		toast.success("Song added successfully");
-    	} catch (error) {
-    		toast.error("Failed to add song: " + error.message);
-    	} finally {
-    		setIsLoading(false);
-    	}
+            setFiles({
+                audio: null,
+                image: null,
+            });
+            toast.success("Song added successfully");
+        } catch (error) {
+            toast.error("Failed to add song: " + (error as AxiosError).message);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -134,7 +134,7 @@ const AddSongDialog = () => {
                                         src={URL.createObjectURL(files.image)}
                                         alt='Podcast Artwork'
                                         className='w-24 h-24 object-cover rounded mb-2'
-                                        />
+                                    />
                                     <div className='text-xs text-zinc-400'>{files.image.name.slice(0, 20)}</div>
                                 </div>
                             ) : (

@@ -1,5 +1,5 @@
 import { useAuth } from '@clerk/clerk-react'
-import React, { useEffect, useTransition, type ReactNode } from 'react'
+import  { useEffect, useTransition, type ReactNode } from 'react'
 import { updateApiToken } from '../utils/updateApiToken';
 import { Loader } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';

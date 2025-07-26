@@ -13,6 +13,7 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { Plus, Upload } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import type { AxiosError } from "axios";
 
 const AddPlaylistDialog = () => {
     const [playlistDialogOpen, setPlaylistDialogOpen] = useState(false);
@@ -66,7 +67,7 @@ const AddPlaylistDialog = () => {
             setPlaylistDialogOpen(false);
             toast.success("Playlist created successfully");
         } catch (error) {
-            toast.error("Failed to create playlist: " + error.message);
+            toast.error("Failed to create playlist: " + (error as AxiosError).message);
         } finally {
             setIsLoading(false);
         }

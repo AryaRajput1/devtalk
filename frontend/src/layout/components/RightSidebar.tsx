@@ -1,7 +1,7 @@
 import { useChatStore } from "@/store/useChatStore";
 import { useUser } from "@clerk/clerk-react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
-import { HeadphoneOffIcon, HeadphonesIcon, Music, Users } from "lucide-react";
+import { HeadphoneOffIcon, HeadphonesIcon, Users } from "lucide-react";
 import { useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
