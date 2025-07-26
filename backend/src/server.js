@@ -5,8 +5,15 @@ import { clerkMiddleware } from '@clerk/express'
 import fileUpload from 'express-fileupload';
 import { adminRoutes, podcastRoutes, authRoutes, playlistRoutes, usersRoutes, statsRoutes } from './routes/index.js';
 import cors from 'cors';
+import { createServer } from 'http'
+import { initializeSocket } from './lib/socket.js';
 
 const app = express();
+
+const httpServer = createServer(app);
+
+initializeSocket(httpServer)
+
 app.use(cors({
     origin: process.env.CLIENT_URL || 'http://localhost:3000',
     credentials: true,
@@ -37,7 +44,7 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Something went wrong!' });
 });
 
-app.listen(PORT, () => {
+httpServer.listen(PORT, () => {
     connectToDatabase();
     console.log(`Server is running on port ${PORT}`);
     console.log(`http://localhost:${PORT}`);

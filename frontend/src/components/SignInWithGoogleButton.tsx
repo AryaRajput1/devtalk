@@ -1,14 +1,15 @@
-import { useSignIn } from '@clerk/clerk-react';
+import { useSignUp } from '@clerk/clerk-react';
 import { Button } from './ui/button';
 
 const SignInWithGoogleButton = () => {
-    const { isLoaded, signIn } = useSignIn();
+    const { isLoaded, signUp } = useSignUp();
+    
 
     if (!isLoaded) {
         return null
     }
     const signInWithGoogle = async () => {
-        signIn.authenticateWithRedirect({
+        signUp.authenticateWithRedirect({
             strategy: 'oauth_google',
             redirectUrl: '/sso-callback',
             redirectUrlComplete: '/auth-callback',

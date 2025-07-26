@@ -36,3 +36,10 @@ export interface Stats {
 	totalUsers: number;
 	totalArtists: number;
 }
+
+export interface Message {
+    _id: string
+    senderId: string
+    recieverId: string
+    content: string
+}

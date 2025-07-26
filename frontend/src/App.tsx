@@ -6,6 +6,7 @@ import MainLayout from "./layout/MainLayout"
 import PlaylistPage from "./pages/playlist/PlaylistPage"
 import AdminPage from "./pages/admin/AdminPage"
 import { Toaster } from "./components/ui/sonner"
+import ChatPage from "./pages/chat/ChatPage"
 
 function App() {
   return (
@@ -17,8 +18,8 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path='/' element={<HomePage />} />
           <Route path='/playlist/:playlistId' element={<PlaylistPage />} />
+          <Route path='/chat' element={<ChatPage />} />
         </Route>
-
       </Routes>
       <Toaster />
     </>

@@ -15,7 +15,7 @@ export const authCallback = async (req, res, next) => {
         }
 
         const newUser = new User({
-            fullName: `${firstName} ${lastName}`,
+            fullName: `${firstName || ''} ${lastName || ''}`,
             imageUrl,
             clerkId: id
         })

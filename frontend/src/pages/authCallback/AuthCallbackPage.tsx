@@ -18,7 +18,7 @@ const AuthCallbackPage = () => {
           return;
         }
 
-        const response = await axiosWrapper.post('/auth/callback', {
+        await axiosWrapper.post('/auth/callback', {
           id: user.id,
           firstName: user.firstName,
           lastName: user.lastName,
