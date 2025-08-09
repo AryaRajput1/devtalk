@@ -1,5 +1,3 @@
-import type { AxiosError } from "axios";
-
 export interface Playlist {
     _id: string;
     title: string;
