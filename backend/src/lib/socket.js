@@ -13,6 +13,8 @@ export const initializeSocket = (server) => {
 	const userActivities = new Map(); // {userId: activity}
 
 	io.on("connection", (socket) => {
+		console.log("New client connected:", socket.id);
+		
 		socket.on("user_connected", (userId) => {
 			userSockets.set(userId, socket.id);
 			userActivities.set(userId, "Idle");

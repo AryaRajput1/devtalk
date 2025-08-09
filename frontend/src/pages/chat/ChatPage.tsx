@@ -6,6 +6,9 @@ import UsersList from './components/UsersList';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import ChatHeader from './components/ChatHeader';
+import MessageInput from './components/MessageInput';
+import { NoConversationPlaceholder } from './components/NoConversationPlaceholder';
+import dayjs from 'dayjs';
 
 const ChatPage = () => {
     const { user } = useUser();
@@ -19,7 +22,16 @@ const ChatPage = () => {
         if (selectedUser) fetchMessages(selectedUser.clerkId);
     }, [selectedUser, fetchMessages]);
 
-    console.log('messages', messages)
+
+    useEffect(() => {
+        const scrollArea = document.querySelector('.scroll-area > div') as HTMLElement;
+
+        console.log('scrollArea', scrollArea);
+
+        if (scrollArea) {
+            scrollArea.scrollTop = scrollArea.scrollHeight;
+        }
+    }, [messages]);
 
     return (
         <main className='h-full rounded-lg bg-gradient-to-b from-zinc-800 to-zinc-900 overflow-hidden'>
@@ -35,7 +47,7 @@ const ChatPage = () => {
                             <ChatHeader />
 
                             {/* Messages */}
-                            <ScrollArea className='h-[calc(100vh-340px)]'>
+                            <ScrollArea className='h-[calc(100vh-340px)] scroll-area'>
                                 <div className='p-4 space-y-4'>
                                     {messages.map((message) => (
                                         <div
@@ -55,12 +67,12 @@ const ChatPage = () => {
 
                                             <div
                                                 className={`rounded-lg p-3 max-w-[70%]
-													${message.senderId === user?.id ? "bg-green-500" : "bg-zinc-800"}
+													${message.senderId === user?.id ? "bg-green-600" : "bg-zinc-800"}
 												`}
                                             >
                                                 <p className='text-sm'>{message.content}</p>
                                                 <span className='text-xs text-zinc-300 mt-1 block'>
-                                                    {/* {formatTime(message.createdAt)} */}
+                                                    {dayjs(message.created_at).format('DD MMM, HH:mm')}
                                                 </span>
                                             </div>
                                         </div>
@@ -68,11 +80,10 @@ const ChatPage = () => {
                                 </div>
                             </ScrollArea>
 
-                            {/* <MessageInput /> */}
+                            <MessageInput />
                         </>
                     ) : (
-                        // <NoConversationPlaceholder />
-                        null
+                        <NoConversationPlaceholder />
                     )}
                 </div>
             </div>

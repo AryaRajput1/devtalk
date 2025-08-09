@@ -1,3 +1,5 @@
+import type { AxiosError } from "axios";
+
 export interface Playlist {
     _id: string;
     title: string;
@@ -42,4 +44,5 @@ export interface Message {
     senderId: string
     recieverId: string
     content: string
+    created_at: string
 }

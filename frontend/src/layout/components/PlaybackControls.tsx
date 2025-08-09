@@ -56,6 +56,8 @@ const PlaybackControls = () => {
     // handle stop music if spacebar is pressed
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+            
             if (e.code === "Space") {
                 e.preventDefault();
 

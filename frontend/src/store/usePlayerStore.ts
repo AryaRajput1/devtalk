@@ -1,5 +1,7 @@
 import type { Podcast } from '@/types';
 import { create } from 'zustand';
+import { useChatStore } from './useChatStore';
+import type { Socket } from 'socket.io-client';
 
 interface PlayerState {
     currentPodcast: Podcast | null;
@@ -30,6 +32,15 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         if (podcasts.length === 0) {
             return;
         }
+        const socket = useChatStore.getState().socket as Socket & { auth: { userId: string } }
+
+        if (socket.auth) {
+            socket.emit("update_activity", {
+                userId: socket.auth.userId,
+                activity: `listening ${podcasts[index].title} by ${podcasts[index].artist}`,
+            })
+        }
+
         set({
             queue: podcasts,
             currentPodcast: podcasts[index] || null,
@@ -52,11 +63,35 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
             isPlaying: true,
         });
     },
-    togglePlay: () => set({ isPlaying: !get().isPlaying }),
-    playNext: () => { 
+    togglePlay: () => {
+        const willPlaying = !get().isPlaying;
+
+        const currentPodcast = get().currentPodcast;
+        const socket = useChatStore.getState().socket as Socket & { auth: { userId: string } }
+
+        if (socket.auth) {
+            socket.emit("update_activity", {
+                userId: socket.auth.userId,
+                activity: willPlaying && currentPodcast ? `listening ${currentPodcast.title} by ${currentPodcast.artist}` : "Idle",
+            });
+        }
+
+        set({ isPlaying: !get().isPlaying })
+    },
+    playNext: () => {
         const { queue, currentIndex } = get();
         if (queue.length === 0) return;
         const nextIndex = (currentIndex + 1) % queue.length;
+
+        const socket = useChatStore.getState().socket as Socket & { auth: { userId: string } }
+
+        if (socket.auth) {
+            socket.emit("update_activity", {
+                userId: socket.auth.userId,
+                activity: `listening ${queue[nextIndex].title} by ${queue[nextIndex].artist}`,
+            });
+        }
+
         set({
             currentPodcast: queue[nextIndex],
             currentIndex: nextIndex,
@@ -67,10 +102,20 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
         const { queue, currentIndex } = get();
         if (queue.length === 0) return;
         const prevIndex = (currentIndex - 1 + queue.length) % queue.length;
+
+        const socket = useChatStore.getState().socket as Socket & { auth: { userId: string } }
+
+        if (socket.auth) {
+            socket.emit("update_activity", {
+                userId: socket.auth.userId,
+                activity: `listening ${queue[prevIndex].title} by ${queue[prevIndex].artist}`,
+            });
+        }
+
         set({
             currentPodcast: queue[prevIndex],
             currentIndex: prevIndex,
             isPlaying: true,
         });
-     },
+    },
 }));

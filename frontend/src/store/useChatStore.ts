@@ -2,6 +2,7 @@ import type { Message, User } from "@/types";
 import { axiosWrapper } from "@/utils/axiosWrapper";
 import { create } from "zustand";
 import { io } from "socket.io-client";
+import type { AxiosError } from "axios";
 
 
 interface ChatStore {
@@ -53,6 +54,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     },
     initSocket: (userId) => {
         if (!get().isConnected) {
+            set({ socket, isConnected: false });
             socket.auth = { userId };
             socket.connect();
 
@@ -112,6 +114,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     },
     sendMessage: async (receiverId, senderId, content) => {
         const socket = get().socket;
+
         if (!socket) return;
 
         // @ts-expect-error emit is not in empty socket
@@ -123,8 +126,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         try {
             const response = await axiosWrapper.get(`/users/messages/${userId}`);
             set({ messages: response.data.messages });
-        } catch (error: any) {
-            set({ error: error.response.data.message });
+        } catch (error: unknown) {
+            set({
+                error: (error as AxiosError<{
+                    message: string;
+                }>).response?.data.message || "Failed to fetch messages"
+            });
         } finally {
             set({ isLoading: false });
         }
